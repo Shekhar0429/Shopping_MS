@@ -67,7 +67,6 @@ module.exports.CreateChannel = async () => {
   try {
     const connection = await amqplib.connect(MESSAGE_BROKER_URL);
     const channel = await connection.createChannel();
-    // assertExchange: distributer,distributed messages b/w queues
     await channel.assertExchange(EXCHANGE_NAME, 'direct', false);
     return channel;
   } catch (error) {
@@ -89,7 +88,7 @@ module.exports.PublishMessage = async (channel, binding_key, message) => {
 module.exports.SubscribeMessage = async (channel, service,binding_key) => {
   const appQueue = await channel.assertQueue('QUEUE_NAME');
   channel.bindQueue(appQueue.queue, EXCHANGE_NAME, binding_key);
-  channel.consume(appQueue.queue, (data) => {
+  channel.consume(appQueue.queue, data => {
     console.log('received data');
     console.log(data.content.toString());
     channel.ack(data);

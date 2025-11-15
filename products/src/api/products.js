@@ -68,7 +68,7 @@ module.exports = (app,channel) => {
         const { _id } = req.user;
         try {
              // get payload to send to customer service
-            const {data} = await service.GetProductPayload(_id, req.body, 'ADD_TO_WISHLIST');
+            const {data} = await service.GetProductPayload(_id, { productId: req.body._id }, 'ADD_TO_WISHLIST');
             // PublishCustomerEvent(data);
             PublishMessage(channel,CUSTOMER_BINDING_KEY,JSON.stringify(data));
             return res.status(200).json(data.data.product);

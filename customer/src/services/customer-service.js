@@ -140,7 +140,7 @@ class CustomerService {
 
     // Event to communicate between services
     async SubscribeEvents(payload){
- 
+        payload = JSON.parse(payload);
         const { event, data } =  payload;
 
         const { userId, product, order, qty } = data;
